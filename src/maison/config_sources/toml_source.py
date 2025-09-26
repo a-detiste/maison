@@ -8,8 +8,6 @@ except ImportError:
 from functools import lru_cache
 from typing import Any
 
-from path import Path
-
 from ..errors import BadTomlError
 from .base_source import BaseSource
 
@@ -36,7 +34,7 @@ class TomlSource(BaseSource):
             BadTomlError: If toml cannot be parsed
         """
         try:
-            with Path.open(self.filepath, "rb") as fd:
+            with self.filepath.open(mode="rb") as fd:
                 return dict(tomllib.load(fd))
         except tomllib.TOMLDecodeError as exc:
             raise BadTomlError(
